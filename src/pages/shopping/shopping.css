@@ -1,0 +1,59 @@
+.shopTitle {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 20px;
+    color: darkblue; /* Change the text color to blue */
+  }
+  
+  .products {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;
+  }
+  
+  .product {
+    border: 2px solid darkblue; /* Add a dark blue border around the product */
+    border-radius: 15px;
+    width: 400px;
+    height: 600px;
+    margin: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .product img {
+    width: 300px; /* Ensure the image spans the entire container width */
+    height: 400px; /* Ensure the image spans the entire container height */
+    object-fit: cover; /* Maintain aspect ratio and cover the entire space */
+  }
+  
+  .product .description {
+    text-align: center;
+  }
+  
+  .product:hover {
+    transition: 0.3s ease-in;
+    cursor: pointer;
+  }
+  
+  .addToCartBttn {
+    background-color: transparent;
+    border: 2px solid darkblue; /* Change the border color to blue */
+    min-width: 100px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 15px;
+  }
+  
+  .addToCartBttn:hover {
+    background-color: darkblue; /* Change the background color to blue */
+    color: white;
+    cursor: pointer;
+  }
+  
