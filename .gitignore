@@ -28,4 +28,4 @@ frontend/yarn-error.log*
 backend/__pycache__/
 backend/local_settings.py
 backend/media
-backend/.venv
+backend/venv
