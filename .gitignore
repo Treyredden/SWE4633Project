@@ -29,4 +29,3 @@ backend/__pycache__/
 backend/local_settings.py
 backend/media
 backend/venv
-node_modules
