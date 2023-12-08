@@ -5,8 +5,7 @@ def get_image_urls(bucket_name):
     paginator = s3.get_paginator('list_objects')
     operation_parameters = {'Bucket': bucket_name}
     page_iterator = paginator.paginate(**operation_parameters)
- 
- 
+
     image_urls = []
     for page in page_iterator:
         if 'Contents' in page:
