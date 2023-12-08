@@ -41,7 +41,7 @@
   }
   
   .addToCartBttn {
-    background-color: transparent;
+    background-color: darkblue;
     border: 2px solid darkblue; /* Change the border color to blue */
     min-width: 100px;
     padding-left: 10px;

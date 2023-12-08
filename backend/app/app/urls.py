@@ -20,13 +20,13 @@ from rest_framework.routers import DefaultRouter
 from api.views import *
 
 router = DefaultRouter()
-router.register(r'product', ProductViewSet)
-router.register(r'user', UserViewSet)
-router.register(r'cart', CartViewSet)
-router.register(r'payment', PaymentViewSet)
-router.register(r'order', OrderViewSet)
-router.register(r'orderitem', OrderItemViewSet)
-router.register(r'cartitem', CartItemViewSet)
+router.register(r'products', ProductViewSet)
+router.register(r'users', UserViewSet)
+router.register(r'carts', CartViewSet)
+router.register(r'payments', PaymentViewSet)
+router.register(r'orders', OrderViewSet)
+router.register(r'orderitems', OrderItemViewSet)
+router.register(r'cartitems', CartItemViewSet)
 
 
 urlpatterns = [

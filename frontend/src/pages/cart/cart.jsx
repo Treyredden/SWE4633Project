@@ -1,93 +1,104 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './main.css';
-import { Link } from 'react-router-dom';
+
+const API_URL = 'http://localhost:8000/api';
 
 export const Cart = () => {
-    let items = [
-        // Sample items
-        { id: 1, name: 'Bread', price: 3.99, quantity: 1, imageUrl: '../../assets/bread-5.png', selected: false },
-        { id: 2, name: 'Milk', price: 4.99, quantity: 1, imageUrl: '../../assets/milk.png', selected: false }
-    ];
+    const [items, setItems] = useState([]);
+
+    useEffect(() => {
+        // Fetch cart items from the server
+        axios.get(`${API_URL}/carts/`)
+            .then(res => {
+                console.log('Fetched items:', res.data);
+                setItems(res.data);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }, []);
 
     const renderItems = () => {
         return items.map((item) => {
             return (
-                <div className="item" key={item.id}>
+                <div className="item" key={item.product_id}> 
                     <div className="product-container">
-                        <input type="checkbox" checked={item.selected} onChange={() => toggleSelection(item.id)} />
+                        <input type="checkbox" checked={item.selected} onChange={() => toggleSelection(item.product_id)} /> \
                         <img src={item.imageUrl} alt={item.name} className="product-image" />
                         <div>
                             <p>{item.name}</p>
-                            <p>Price: ${item.price}</p>
+                            <p>Price: ${item.product_price}</p> {/* Use product_price instead of price */}
                             <div>
-                                <button type="button" onClick={() => decreaseQuantity(item.id)}>-</button>
+                                <button type="button" onClick={() => decreaseQuantity(item.product_id)}>-</button> 
                                 <span>{item.quantity}</span>
-                                <button type="button" onClick={() => increaseQuantity(item.id)}>+</button>
+                                <button type="button" onClick={() => increaseQuantity(item.product_id)}>+</button> 
                             </div>
                         </div>
-                        <button type="button" onClick={() => removeItem(item.id)}>Remove</button>
+                        <button type="button" onClick={() => removeItem(item.product_id)}>Remove</button> 
                     </div>
                 </div>
             );
         });
     };
-
+    
     const toggleSelection = (id) => {
-        items = items.map((item) =>
+        setItems(prevItems => prevItems.map((item) =>
             item.id === id ? { ...item, selected: !item.selected } : item
-        );
-        renderItems();
+        ));
         calculateTotalPrice();
     };
 
     const removeItem = (id) => {
-        items = items.filter((item) => item.id !== id);
-        renderItems();
-        calculateTotalPrice();
+        console.log('Removing item with id:', id);
+        axios.delete(`${API_URL}/carts/${id}/`)
+            .then(res => {
+                setItems(prevItems => prevItems.filter((item) => item.id !== id));
+                calculateTotalPrice();
+            })
+            .catch(err => {
+                console.error(err);
+            });
     };
 
     const increaseQuantity = (id) => {
-        items = items.map((item) =>
+        setItems(prevItems => prevItems.map((item) =>
             item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-        );
-        renderItems();
+        ));
         calculateTotalPrice();
     };
 
     const decreaseQuantity = (id) => {
-        items = items.map((item) =>
+        setItems(prevItems => prevItems.map((item) =>
             item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
-        );
-        renderItems();
+        ));
         calculateTotalPrice();
     };
 
     const calculateTotalPrice = () => {
-        // To be implemented
-        console.log("calculateTotalPrice function will be implemented later.");
+        const totalPrice = items.reduce((total, item) => total + item.price * item.quantity, 0);
+        console.log(`Total Price: $${totalPrice}`);
     };
 
     const proceedToCheckout = () => {
-        // To be implemented
-        console.log("proceedToCheckout function will be implemented later.");
-    };
-
-    const globalSearch = () => {
-        // To be implemented
-        console.log("globalSearch function will be implemented later.");
+        // Send a request to backend to create an order with the items in the cart
+        axios.post(`${API_URL}/orders/`, {
+            items: items.map(item => ({ product: item.id, quantity: item.quantity }))
+        })
+        .then(res => {
+            console.log('Order placed successfully');
+            // Clear the cart
+            setItems([]);
+        })
+        .catch(err => {
+            console.error('Failed to place order: ', err);
+        });
     };
 
     return (
-        <div>
-            <div className="navbar">
-                <Link to="/shopping" className="active">
-                    Shop
-                </Link>
-                <a href="#">Cart</a>
-            </div>
+        <div style={{width: '100%'}}>
             <div className="container">
                 <div className="left-section">
-                    <input type="text" id="globalSearchBar" onKeyUp={globalSearch} placeholder="Search for items..." />
                     <div id="orderList">{renderItems()}</div>
                 </div>
                 <div className="right-section">
@@ -102,7 +113,7 @@ export const Cart = () => {
                         <input type="text" placeholder="CVC" />
                     </div>
                     <div id="totalPrice">
-                        <p4> Total Price: $ 0</p4>
+                        <p> Total Price: $ 0</p>
                         <br />
                         <br />
                     </div>
