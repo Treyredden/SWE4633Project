@@ -1,7 +1,29 @@
 body {
     font-family: Arial, sans-serif;
+    display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 0;
+}
+
+.navbar {
+    width: 100%;
+    overflow: hidden;
+    background-color: darkblue;
+}
+
+.navbar a {
+    float: right;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: #3641b5;
+    color: black;
 }
 
 .container {
@@ -20,6 +42,13 @@ body {
     width: 45%;
     border-left: 1px solid grey;
     padding-left: 20px;
+}
+
+#globalSearchBar {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    margin-bottom: 20px;
 }
 
 #orderList {
