@@ -3,12 +3,12 @@ import { Product } from "./product";
 import "./shopping.css";
 import { useLocation } from 'react-router-dom';
 import AWS from 'aws-sdk';
+import { useNavigate } from 'react-router-dom';
 
 export const Shopping = () => {
     const [products, setProducts] = useState([]);
-    const [userID, setUserID] = useState(null);
-    const [accessToken, setAccessToken] = useState(null);
     const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Function to decode ID token
@@ -58,28 +58,6 @@ export const Shopping = () => {
             .catch(error => console.error('Fetch error:', error));
     }, [location]);
 
-    const signOut = () => {
-         const cognito = new AWS.CognitoIdentityServiceProvider({
-             region: 'us-east-2',
-         });
-
-         const params = {
-             AccessToken: accessToken,
-         };
-
-         cognito.globalSignOut(params, function(err, data) {
-             if (err) {
-                console.error(err);
-             } else {
-                 // Clear the user session data
-                 setUserID(null);
-                 setAccessToken(null);
-                 // Redirect to login page or home page after successful sign-out
-                 navigate('/');
-             }
-         });
-    };
-
     return (
         <div className='shopping'>
             <div className="shopTitle">
@@ -87,7 +65,7 @@ export const Shopping = () => {
             </div>
             <div className="products">
                 {products.map((product) => {
-                    return <Product key={product.id} data={product} userID={userID} />
+                    return <Product key={product.id} data={product} />
                 })}
             </div>
         </div>
