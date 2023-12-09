@@ -29,7 +29,7 @@ export const Shopping = () => {
             const params = {
                 ClientId: 'f4gcambofs9ikqe5mvrllhttm',
                 Code: code,
-                RedirectUri: 'https://ec2-18-221-168-153.us-east-2.compute.amazonaws.com/shopping',
+                RedirectUri: 'http://ec2-18-221-168-153.us-east-2.compute.amazonaws.com/shopping',
                 GrantType: 'authorization_code',
             };
 
