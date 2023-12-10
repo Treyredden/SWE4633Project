@@ -4,48 +4,23 @@ import "./shopping.css";
 import { useLocation } from 'react-router-dom';
 import AWS from 'aws-sdk';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 export const Shopping = () => {
     const [products, setProducts] = useState([]);
+    const [userId, setUserId] = useState('');
     const location = useLocation();
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Function to decode ID token
-        const decodeIdToken = (idToken) => {
-            const payload = idToken.split('.')[1];
-            const decodedJson = Buffer.from(payload, 'base64').toString();
-            const decoded = JSON.parse(decodedJson);
-            return decoded;
-        };
-
-        // Extract code from URL and get user ID
-        const code = new URLSearchParams(location.search).get('code');
-        if (code) {
-            const cognito = new AWS.CognitoIdentityServiceProvider({
-                region: 'us-east-2',
-            });
-
-            const params = {
-                ClientId: 'f4gcambofs9ikqe5mvrllhttm',
-                Code: code,
-                RedirectUri: 'http://ec2-18-221-168-153.us-east-2.compute.amazonaws.com/shopping',
-                GrantType: 'authorization_code',
-            };
-
-            cognito.initiateAuth(params, function(err, data) {
-                if (err) {
-                    console.error(err);
-                } else {
-                    const idToken = data.AuthenticationResult.IdToken;
-                    const accessToken = data.AuthenticationResult.AccessToken;
-		    const userInfo = decodeIdToken(idToken);
-                    setUserID(userInfo.sub);
-		    setAccessToken(accessToken);
-                }
-            });
+	// Fetch or create userID
+	let userId = localStorage.getItem('userId');
+        if (!userId) {
+            userId = uuidv4(); // Generate a new UUID
+            localStorage.setItem('userId', userId);
         }
-
+        setUserId(userId);
+        
         // Fetch products
         fetch('http://ec2-18-221-168-153.us-east-2.compute.amazonaws.com/api/product/')
             .then(response => {
@@ -65,7 +40,7 @@ export const Shopping = () => {
             </div>
             <div className="products">
                 {products.map((product) => {
-                    return <Product key={product.id} data={product} />
+                    return <Product key={product.id} data={product} userId={userId} />
                 })}
             </div>
         </div>

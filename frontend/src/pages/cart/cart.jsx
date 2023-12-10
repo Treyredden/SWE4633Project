@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './main.css';
+import { v4 as uuidv4 } from 'uuid';
 
 const API_URL = 'http://localhost:8000/api';
 
 export const Cart = () => {
     const [items, setItems] = useState([]);
+    const [userId, setUserId] = useState('');
 
     useEffect(() => {
+	// Fetch or create userID
+        let userId = localStorage.getItem('userId');
+        if (!userId) {
+            userId = uuidv4(); // Generate a new UUID
+            localStorage.setItem('userId', userId);
+        }
+        setUserId(userId);
+
         // Fetch cart items from the server
         axios.get(`${API_URL}/carts/`)
             .then(res => {
