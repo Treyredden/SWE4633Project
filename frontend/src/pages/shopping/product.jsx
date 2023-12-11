@@ -1,24 +1,32 @@
 import React from "react";
 
 export const Product = (props) => {
-    const { id, product_name: productName, price, image_url: productImage } = props.data;
+    const {product_id, product_name: productName, price, image_url: productImage} = props.data;
+    const cartId = props.cartId;
     const userId = props.userId;
-
+    //fetch('http://ec2-18-221-168-153.us-east-2.compute.amazonaws.com/api/cart/?cart_id=4', {
     const addToCart = () => {
-        fetch('http://ec2-18-221-168-153.us-east-2.compute.amazonaws.com/api/cart/', {
+        console.log("PROPS");
+        console.log(props);
+        console.log('product_id');
+        console.log(product_id);
+        console.log('CART ID');
+        console.log(cartId);
+        fetch('http://ec2-18-221-168-153.us-east-2.compute.amazonaws.com/api/cartitem/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                product_id: id,
+                product: product_id,
                 user_id: userId,
+                cart: cartId,
                 quantity: 1,
             }),
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Item added to cart:', data);
+            alert('Item added to cart:', data);
         })
         .catch((error) => {
             console.error('Error:', error);
