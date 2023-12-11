@@ -1,0 +1,76 @@
+body {
+    font-family: Arial, sans-serif;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    width: 1000px;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.left-section {
+    width: 45%;
+}
+
+.right-section {
+    width: 45%;
+    border-left: 1px solid grey;
+    padding-left: 20px;
+}
+
+#orderList {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.product-container {
+    display: flex;
+    align-items: center;
+}
+
+.product-image {
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+button {
+    padding: 10px;
+    background-color: darkblue;
+    border: 1px solid #3e57d2;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+    color: #f5f4f4;
+}
+
+button:hover {
+    background-color: #3641b5;
+}
+
+.personal-info input {
+    display: block;
+    margin-bottom: 10px;
+    width: 90%;
+    padding: 10px;
+    font-size: 16px;
+}
+
+#totalPrice {
+    margin-top: 20px;
+}
